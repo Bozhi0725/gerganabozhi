@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Galerie</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #68a4d8;
+            background-image: url('https://www.transparenttextures.com/patterns/heart-background.png');
+            background-size: contain;
+            background-repeat: repeat;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #ff69b4;
+            text-shadow: 2px 2px 4px #000000;
+            margin-top: 20px;
+        }
+
+        .container {
+            text-align: center;
+            margin: 20px;
+        }
+
+        #gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .image-container {
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #ff69b4;
+            border-radius: 10px;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .image-container img:hover {
+            transform: scale(1.1);
+        }
+
+        button, .custom-file-upload {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            display: inline-block;
+        }
+
+        button:hover, .custom-file-upload:hover {
+            background-color: #ff1493;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Online Galerie</h1>
+    <div class="container">
+        <label for="file-upload" class="custom-file-upload">
+            <button>Datei hochladen</button>
+        </label>
+        <input type="file" id="file-upload" accept="image/*" multiple>
+    </div>
+    <div id="gallery"></div>
+
+    <script>
+        const fileUpload = document.getElementById('file-upload');
+        const gallery = document.getElementById('gallery');
+
+        fileUpload.addEventListener('change', (event) => {
+            const files = event.target.files;
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgContainer = document.createElement('div');
+                    imgContainer.classList.add('image-container');
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    imgContainer.appendChild(img);
+                    gallery.appendChild(imgContainer);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>
